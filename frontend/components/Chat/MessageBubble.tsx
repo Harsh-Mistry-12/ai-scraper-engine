@@ -1,11 +1,15 @@
 "use client";
 import React from "react";
 import { Message } from "@/lib/types";
+import { getDownloadUrl } from "@/lib/api";
+
 interface MessageBubbleProps {
     message: Message;
 }
+
 export default function MessageBubble({ message }: MessageBubbleProps) {
     const isUser = message.role === "user";
+
     /**
      * Render simple markdown-like formatting:
      * **bold**, `code`, and newlines.
@@ -41,13 +45,27 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         }
         return parts;
     };
+
+    const filename = message.metadata?.filename;
+
     return (
         <div className={`message ${isUser ? "user" : "assistant"}`} id={`msg-${message.id}`}>
             <div className="message-avatar">
                 {isUser ? "👤" : "🤖"}
             </div>
             <div className="message-content">
-                {renderContent(message.content)}
+                <div>{renderContent(message.content)}</div>
+                {message.message_type === "export" && filename && (
+                    <div style={{ marginTop: "12px" }}>
+                        <a
+                            href={getDownloadUrl(filename)}
+                            className="btn btn-primary"
+                            style={{ display: "inline-flex", textDecoration: "none" }}
+                        >
+                            📥 Download File
+                        </a>
+                    </div>
+                )}
             </div>
         </div>
     );

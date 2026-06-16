@@ -288,6 +288,7 @@ class ScrapingEngine:
         if ptype == "url_parameter":
             pattern = pagination.get("url_pattern", "")
             if pattern:
-                return pattern.replace("{page}", str(current_page + 1))
+                next_url = pattern.replace("{page}", str(current_page + 1))
+                return urljoin(current_url, next_url)
             return None
         return None

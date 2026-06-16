@@ -234,9 +234,8 @@ Guidelines:
 Target URL: {target_url}
 Desired fields to extract: {json.dumps(desired_fields)}
 Website analysis: {json.dumps(website_analysis)}
-Sample HTML (first 5000 chars):
-{page_html_sample[:5000]}
-"""
+Sample HTML (first 12000 chars):
+{page_html_sample[:12000]}"""
         error_fallback = {
             "technique": "browser_automation",
             "selectors": {},

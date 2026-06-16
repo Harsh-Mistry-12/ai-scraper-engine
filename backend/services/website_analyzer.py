@@ -44,8 +44,7 @@ class WebsiteAnalyzer:
             try:
                 response = await client.get(url)
                 result["content_type"] = response.headers.get("content-type", "")
-                html = response.text
-                result["html_sample"] = html[:10000]  # Store first 10k chars for AI analysis
+                result["html_sample"] = self._clean_html_sample(html)  # Store cleaned HTML for AI analysis
             except Exception as e:
                 logger.error(f"Failed to fetch {url}: {e}")
                 result["notes"].append(f"Failed to fetch page: {str(e)[:200]}")
@@ -183,3 +182,18 @@ class WebsiteAnalyzer:
             return "browser_automation"
         # Default to direct HTTP (fastest)
         return "direct_http"
+
+    def _clean_html_sample(self, html: str) -> str:
+        """Strip scripts, styles, metas, and SVGs to provide a dense content-rich HTML structure to the AI."""
+        try:
+            soup = BeautifulSoup(html, "html.parser")
+            # Remove heavy non-content nodes
+            for element in soup(["script", "style", "meta", "link", "svg", "path", "iframe", "noscript"]):
+                element.decompose()
+            body = soup.body if soup.body else soup
+            # Prettify and remove excessive whitespace/blank lines
+            text = body.prettify()
+            lines = [line for line in text.splitlines() if line.strip()]
+            return "\n".join(lines)[:12000]
+        except Exception:
+            return html[:10000]
