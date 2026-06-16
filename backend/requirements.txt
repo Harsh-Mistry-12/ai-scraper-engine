@@ -1,0 +1,17 @@
+fastapi
+uvicorn[standard]
+python-multipart
+sqlalchemy
+aiosqlite
+google-genai
+playwright
+beautifulsoup4
+httpx
+pandas
+openpyxl
+lxml
+python-dotenv
+sse-starlette
+aiofiles
+pydantic
+pydantic-settings
