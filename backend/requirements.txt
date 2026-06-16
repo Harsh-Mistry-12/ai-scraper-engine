@@ -1,0 +1,14 @@
+fastapi
+uvicorn[standard]
+google-genai
+playwright
+httpx
+beautifulsoup4
+pandas
+openpyxl
+python-multipart
+python-dotenv
+sqlalchemy
+pydantic
+crawl4ai
+websockets
