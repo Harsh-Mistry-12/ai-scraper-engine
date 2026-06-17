@@ -43,6 +43,7 @@ class WebsiteAnalyzer:
             # ── Step 1: Fetch the page ───────────────────────────────
             try:
                 response = await client.get(url)
+                html = response.text
                 result["content_type"] = response.headers.get("content-type", "")
                 result["html_sample"] = self._clean_html_sample(html)  # Store cleaned HTML for AI analysis
             except Exception as e:
